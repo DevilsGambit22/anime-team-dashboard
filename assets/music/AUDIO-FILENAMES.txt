@@ -1,0 +1,9 @@
+Rename your five MP3 files exactly:
+
+one-piece.mp3
+naruto.mp3
+my-hero-academia.mp3
+dan-da-dan.mp3
+jjk.mp3
+
+Place all five files directly in this assets/music folder.

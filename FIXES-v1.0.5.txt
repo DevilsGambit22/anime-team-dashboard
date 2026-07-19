@@ -1,0 +1,17 @@
+Anime Team Dashboard v1.0.5
+
+Fixed:
+- Startup JavaScript failure that could disable all buttons
+- Theme buttons
+- Page navigation tabs
+- Effects toggle
+- Scan and Surprise buttons
+- Easter eggs
+- Current/upcoming match loading and calendar rendering
+- Broken Club Matches link (now opens the valid Anime Team club page)
+- Radio artwork and animated sound wave
+- Radio play/pause, previous, next, seek, and volume
+- Added shuffle and repeat
+- Added five configured anime radio tracks
+- Added missing-file feedback
+- Made startup resilient so one feature cannot disable the entire dashboard
