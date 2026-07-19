@@ -1,0 +1,14 @@
+Anime Team Dashboard v1.1.2
+
+Changes:
+- Removed the Crossover and Naruto theme selection buttons.
+- Removed the Naruto theme shortcut from the home theme selector.
+- Changed the visible/default theme to One Piece when an old removed theme was saved.
+- Improved mobile page-tab scrolling by using native momentum scrolling on touch devices.
+- Preserved desktop click-and-drag tab scrolling and normal tab clicking.
+- Added smooth centering of a selected page tab.
+- Added a Staff tab with direct Chess.com profile links for:
+  - Club Owner: dannyboy_guling
+  - Co-Owner: crayon
+  - Super Admin: devilsgambit22
+  - Admins: the_distance, cello_jello, Dig1talNinja, LuciusClaw
