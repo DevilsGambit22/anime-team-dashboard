@@ -1,0 +1,6 @@
+Anime Team Dashboard v1.1.3
+
+- Removed the visible horizontal tab scrollbar.
+- Restored reliable desktop tab clicks while preserving click-and-drag scrolling.
+- Kept native touch scrolling for phones and tablets.
+- Staff avatars now load from the Chess.com Public API with initials as a fallback.
