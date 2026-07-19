@@ -115,7 +115,7 @@ function setupDragTabs(){
 }
 
 
-function fetchMatches() {
+async function fetchMatches() {
     const status = $("#apiStatus");
     const message = $("#calendarMessage");
     status.textContent = "Loading Chess.com matches…";
