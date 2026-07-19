@@ -1,9 +1,0 @@
-Anime Team Dashboard v1.1.0
-
-- Page tabs are clickable and remain draggable
-- Removed Join Anime Team and Join the Club buttons
-- Added Anime Team Radio album cover
-- Matched all five radio filenames
-- Added Newest Member Board using Chess.com Public API
-- Lady Justice logo links to And Chess For All Official
-- League Registration page retained
