@@ -1,9 +1,0 @@
-Anime Team Dashboard v1.0.6
-
-Added:
-- Dedicated League Registration page
-- Embedded Tally registration form
-- Full-form fallback link
-- League Registration tab
-- Home quick-launch button
-- Links-page registration card
