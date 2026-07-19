@@ -1,1 +1,0 @@
-Place MP3, OGG, or WAV files in this folder, then add them to the music array in config.js.
