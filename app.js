@@ -85,58 +85,37 @@
     if (page === "calendar") renderCalendar();
   }
 
-  function setupDragTabs() {
-    const scroller = $("#tabScroller");
-    let down = false, startX = 0, startScroll = 0, moved = false;
+  
 
-    scroller.addEventListener("pointerdown", e => {
-      if (e.button !== 0 && e.pointerType === "mouse") return;
-      down = true;
-      moved = false;
-      startX = e.clientX;
-      startScroll = scroller.scrollLeft;
-      scroller.setPointerCapture?.(e.pointerId);
-    });
-
-    scroller.addEventListener("pointermove", e => {
-      if (!down) return;
-      const dx = e.clientX - startX;
-      if (Math.abs(dx) > 6) {
-        moved = true;
-        scroller.classList.add("dragging");
-        scroller.scrollLeft = startScroll - dx;
-      }
-    });
-
-    const finish = e => {
-      down = false;
-      scroller.classList.remove("dragging");
-      try { scroller.releasePointerCapture?.(e.pointerId); } catch {}
-      setTimeout(() => { moved = false; }, 0);
-    };
-    scroller.addEventListener("pointerup", finish);
-    scroller.addEventListener("pointercancel", finish);
-
-    scroller.addEventListener("click", e => {
-      const tab = e.target.closest(".tab");
-      if (!tab) return;
-      if (moved) {
-        e.preventDefault();
-        e.stopPropagation();
-        return;
-      }
+function setupDragTabs(){
+ const s=document.getElementById("tabScroller");
+ if(!s)return;
+ let down=false,moved=false,startX=0,startScroll=0;
+ s.onpointerdown=(e)=>{
+   if(e.pointerType==="mouse"&&e.button!==0)return;
+   down=true;moved=false;startX=e.clientX;startScroll=s.scrollLeft;
+ };
+ s.onpointermove=(e)=>{
+   if(!down)return;
+   const dx=e.clientX-startX;
+   if(Math.abs(dx)>8){
+      moved=true;
+      s.scrollLeft=startScroll-dx;
+   }
+ };
+ const end=()=>{down=false;setTimeout(()=>moved=false,20);}
+ s.onpointerup=end;
+ s.onpointerleave=end;
+ s.querySelectorAll(".tab").forEach(tab=>{
+    tab.onclick=(e)=>{
+      if(moved){e.preventDefault();return;}
       openPage(tab.dataset.page);
-    }, true);
+    };
+ });
+}
 
-    scroller.addEventListener("wheel", e => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        scroller.scrollLeft += e.deltaY;
-        e.preventDefault();
-      }
-    }, { passive: false });
-  }
 
-  async function fetchMatches() {
+function fetchMatches() {
     const status = $("#apiStatus");
     const message = $("#calendarMessage");
     status.textContent = "Loading Chess.com matches…";
