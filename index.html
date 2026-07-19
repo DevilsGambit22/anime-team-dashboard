@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" data-theme="crossover">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Anime Team Chess.com community dashboard">
+  <title>Anime Team Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+  <div id="scanLine" aria-hidden="true"></div>
+  <div id="slashFx" aria-hidden="true"></div>
+  <div id="domainFx" aria-hidden="true"></div>
+
+  <main class="app-shell">
+    <section class="hero panel">
+      <div class="hero-art" aria-hidden="true"></div>
+      <button id="logoEgg" class="logo-button" type="button" aria-label="Anime Team logo">
+        <img src="assets/images/anime-team-logo.jpeg" alt="Anime Team club logo">
+      </button>
+      <div class="hero-copy">
+        <p class="eyebrow">Chess.com Community Dashboard</p>
+        <h1>Anime Team</h1>
+        <p class="tagline">One crew. Three worlds. Infinite battles across the board.</p>
+        <div class="hero-actions">
+          <a class="primary-button" href="https://www.chess.com/club/anime-team-3/join" target="_blank" rel="noopener">Join Anime Team</a>
+          <a class="secondary-button" href="https://discord.gg/JsK2jEfUK" target="_blank" rel="noopener">Open Discord</a>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <span class="status-dot"></span>
+        <span id="apiStatus">Connecting to Chess.com…</span>
+      </div>
+    </section>
+
+    <section class="control-deck panel" aria-label="Dashboard controls">
+      <div class="theme-picker">
+        <span class="control-label">Select Theme</span>
+        <div class="theme-buttons" role="group" aria-label="Theme selection">
+          <button type="button" data-theme-choice="crossover">Crossover</button>
+          <button type="button" data-theme-choice="onepiece">One Piece</button>
+          <button type="button" data-theme-choice="naruto">Naruto</button>
+          <button type="button" data-theme-choice="jjk">JJK</button>
+        </div>
+      </div>
+      <div class="utility-controls">
+        <button id="effectsToggle" type="button" aria-pressed="true">Effects: On</button>
+        <button id="scanButton" type="button">Scan</button>
+        <button id="surpriseButton" type="button">Surprise</button>
+      </div>
+    </section>
+
+    <nav class="tab-shell panel" aria-label="Dashboard pages">
+      <div id="tabScroller" class="tab-scroller">
+        <button class="tab active" data-page="home" type="button">🏠 Home</button>
+        <button class="tab" data-page="calendar" type="button">📅 Match Calendar</button>
+        <button class="tab" data-page="community" type="button">👥 Community</button>
+        <button class="tab" data-page="music" type="button">🎵 Radio</button>
+        <button class="tab" data-page="links" type="button">🔗 Links</button>
+        <button class="tab" data-page="guide" type="button">📖 Guide</button>
+      </div>
+    </nav>
+
+    <section id="page-home" class="page active" data-page-panel="home">
+      <div class="dashboard-grid">
+        <article class="panel feature-card large">
+          <span class="card-kicker">Welcome aboard</span>
+          <h2>A dashboard built for the Anime Team community</h2>
+          <p>Choose a world, explore current and upcoming club matches, launch the community links, and play music without leaving the club page.</p>
+          <div class="series-strip">
+            <button type="button" data-theme-jump="onepiece"><span>☠</span>Grand Line</button>
+            <button type="button" data-theme-jump="naruto"><span>🍥</span>Hidden Village</button>
+            <button type="button" data-theme-jump="jjk"><span>◉</span>Cursed Realm</button>
+          </div>
+        </article>
+
+        <article class="panel stat-card">
+          <span>Current matches</span>
+          <strong id="currentCount">—</strong>
+          <small>In progress now</small>
+        </article>
+
+        <article class="panel stat-card">
+          <span>Upcoming matches</span>
+          <strong id="upcomingCount">—</strong>
+          <small>Registered and scheduled</small>
+        </article>
+
+        <article class="panel feature-card">
+          <span class="card-kicker">Today’s transmission</span>
+          <h3 id="themeMessage">Three worlds are synchronized.</h3>
+          <p id="themeDescription">Crossover mode blends ocean currents, chakra sparks, and cursed energy.</p>
+        </article>
+
+        <article class="panel feature-card">
+          <span class="card-kicker">Quick launch</span>
+          <div class="quick-links">
+            <a href="https://www.chess.com/club/anime-team-3" target="_blank" rel="noopener">Club Home</a>
+            <a href="https://www.chess.com/club/anime-team-3/matches" target="_blank" rel="noopener">Club Matches</a>
+            <a href="https://discord.gg/JsK2jEfUK" target="_blank" rel="noopener">Discord</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="page-calendar" class="page" data-page-panel="calendar">
+      <article class="panel calendar-panel">
+        <header class="section-header">
+          <div>
+            <span class="card-kicker">Chess.com PubAPI</span>
+            <h2>Match Calendar</h2>
+            <p>Current and upcoming club matches are placed directly on their scheduled dates.</p>
+          </div>
+          <div class="calendar-nav">
+            <button id="prevMonth" type="button" aria-label="Previous month">‹</button>
+            <button id="todayButton" type="button">Today</button>
+            <button id="nextMonth" type="button" aria-label="Next month">›</button>
+          </div>
+        </header>
+        <div class="calendar-title-row">
+          <h3 id="calendarTitle"></h3>
+          <button id="refreshMatches" type="button">Refresh matches</button>
+        </div>
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="calendarGrid" class="calendar-grid" role="grid" aria-label="Club match calendar"></div>
+        <div id="calendarMessage" class="calendar-message" aria-live="polite"></div>
+      </article>
+
+      <article id="eventDetails" class="panel event-details" aria-live="polite">
+        <span class="card-kicker">Match details</span>
+        <h3>Select a match icon</h3>
+        <p>Click a match icon inside the calendar to view its opponent, date, status, and Chess.com link.</p>
+      </article>
+    </section>
+
+    <section id="page-community" class="page" data-page-panel="community">
+      <div class="dashboard-grid">
+        <article class="panel feature-card large">
+          <span class="card-kicker">The community</span>
+          <h2>Anime fans who also love chess</h2>
+          <p>Anime Team brings players together through shared interests, club matches, conversation, and friendly competition.</p>
+          <div class="hero-actions">
+            <a class="primary-button" href="https://www.chess.com/club/anime-team-3/join" target="_blank" rel="noopener">Join the Club</a>
+            <a class="secondary-button" href="https://discord.gg/JsK2jEfUK" target="_blank" rel="noopener">Join Discord</a>
+          </div>
+        </article>
+        <article class="panel feature-card">
+          <span class="card-kicker">Theme lore</span>
+          <h3>One Piece</h3>
+          <p>Adventure, loyalty, crews, and the courage to sail toward the unknown.</p>
+        </article>
+        <article class="panel feature-card">
+          <span class="card-kicker">Theme lore</span>
+          <h3>Naruto</h3>
+          <p>Perseverance, teamwork, growth, and the will to protect your village.</p>
+        </article>
+        <article class="panel feature-card">
+          <span class="card-kicker">Theme lore</span>
+          <h3>Jujutsu Kaisen</h3>
+          <p>Intensity, discipline, tactical awareness, and mastery under pressure.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="page-music" class="page" data-page-panel="music">
+      <article class="panel music-panel">
+        <header class="section-header">
+          <div>
+            <span class="card-kicker">Local audio playlist</span>
+            <h2>Anime Team Radio</h2>
+            <p>Add MP3, OGG, or WAV files to <code>assets/music</code>, then list them in <code>config.js</code>.</p>
+          </div>
+          <div id="visualizer" class="visualizer" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </header>
+        <div class="now-playing">
+          <div class="disc" id="musicDisc">AT</div>
+          <div>
+            <span class="card-kicker">Now playing</span>
+            <h3 id="trackTitle">No tracks added yet</h3>
+            <p id="trackArtist">Add music files using the included guide.</p>
+          </div>
+        </div>
+        <audio id="audioPlayer" preload="metadata"></audio>
+        <div class="player-controls">
+          <button id="prevTrack" type="button" aria-label="Previous track">⏮</button>
+          <button id="playPause" class="play-button" type="button" aria-label="Play">▶</button>
+          <button id="nextTrack" type="button" aria-label="Next track">⏭</button>
+        </div>
+        <div class="progress-row">
+          <span id="currentTime">0:00</span>
+          <input id="seekBar" type="range" min="0" max="100" value="0" aria-label="Track progress">
+          <span id="duration">0:00</span>
+        </div>
+        <div class="volume-row">
+          <label for="volumeControl">Volume</label>
+          <input id="volumeControl" type="range" min="0" max="1" step="0.01" value="0.75">
+        </div>
+        <div id="playlist" class="playlist"></div>
+      </article>
+    </section>
+
+    <section id="page-links" class="page" data-page-panel="links">
+      <div class="link-grid">
+        <a class="panel link-card" href="https://www.chess.com/club/anime-team-3" target="_blank" rel="noopener">
+          <span>♟</span><strong>Anime Team</strong><small>Open the club</small>
+        </a>
+        <a class="panel link-card" href="https://www.chess.com/club/anime-team-3/join" target="_blank" rel="noopener">
+          <span>⚔</span><strong>Join Anime Team</strong><small>Become a member</small>
+        </a>
+        <a class="panel link-card" href="https://discord.gg/JsK2jEfUK" target="_blank" rel="noopener">
+          <span>💬</span><strong>Discord</strong><small>Join the conversation</small>
+        </a>
+        <a class="panel link-card" href="https://www.chess.com/club/anime-team-3/matches" target="_blank" rel="noopener">
+          <span>📅</span><strong>Club Matches</strong><small>View matches on Chess.com</small>
+        </a>
+      </div>
+    </section>
+
+    <section id="page-guide" class="page" data-page-panel="guide">
+      <article class="panel guide-panel">
+        <span class="card-kicker">Owner guide</span>
+        <h2>Updating the dashboard</h2>
+        <ol>
+          <li>Edit links, playlist entries, and optional manual events in <code>config.js</code>.</li>
+          <li>Place audio files inside <code>assets/music/</code>.</li>
+          <li>Upload the project to a GitHub repository and enable GitHub Pages.</li>
+          <li>Replace the old Chess.com iframe URL with your new GitHub Pages URL.</li>
+        </ol>
+        <p>The Chess.com match calendar does not require Supabase. It requests the public club-match endpoint directly from the browser.</p>
+      </article>
+    </section>
+
+    <footer class="panel footer">
+      <p>
+        © <span id="copyrightYear"></span>
+        <a href="https://www.chess.com/member/devilsgambit22" target="_blank" rel="noopener">DevilsGambit22</a>
+        • Built with
+        <a href="https://www.chess.com/club/and-chess-for-all-official" target="_blank" rel="noopener">And Chess For All Official</a>
+      </p>
+      <button id="footerEgg" type="button" aria-label="Hidden footer interaction">♟</button>
+    </footer>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
