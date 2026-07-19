@@ -1,0 +1,5 @@
+Radio update:
+- Added anime radio artwork at assets/images/anime-radio-art.jpeg
+- Added animated sound-wave bars while music is playing
+- Added pulsing wave ring and floating artwork effect
+- Effects stop automatically when audio is paused
