@@ -1,8 +1,0 @@
-Anime Team Dashboard v1.1.1 — Chess.com iframe responsive fix
-
-- Prevents dashboard-wide horizontal overflow
-- Optimizes the hero for narrow Chess.com embeds
-- Uses a compact 2-column theme/control layout
-- Makes cards, radio, members, calendar, and footer responsive
-- Preserves horizontal scrolling only inside the page-tab bar
-- Adds cache-busting query strings so GitHub Pages serves the update
